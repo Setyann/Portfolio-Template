@@ -1,0 +1,251 @@
+:root {
+  --background-color: #bbbbbb;
+  --text-color: #222222;
+  --title-color: #222222;
+  --card-color: #888888;
+  --nav-footer-color: #111111;
+  --nav-text: #5d6169;
+  --footer-text: #eeeeee;
+  --brand-color: #eeeeee;
+  --btn-color: #888888;
+  --card-btn: #b4b4b4;
+  --card-btn-text: #222222;
+  --success-color: #166d00;
+}
+
+@media (prefers-color-scheme: dark){
+  :root {
+    --background-color: #222222;
+    --text-color: #5d6169;
+    --title-color: #eeeeee;
+    --card-color: #333333;
+    --btn-color: #333333;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Russo One', sans-serif;
+  color: var(--title-color);
+}
+
+.nav-panel li a {
+  position: relative;
+  padding-bottom: 8px; /* место под точку/линию */
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.nav-panel li .active {
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--text-color);
+  cursor: default;
+}
+
+.nav-panel li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 2px;
+  background-color: var(--text-color);
+  border-radius: 50%;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    border-radius 0.3s ease,
+    opacity 0.3s ease,
+    left 0.3s ease,
+    transform 0.3s ease;
+}
+
+.nav-panel li .active::after {
+  all: unset;
+}
+
+.nav-panel li a:hover::after,
+.nav-panel li a:focus::after {
+  opacity: 1;
+  width: 100%;
+  height: 2px;
+  border-radius: 0;
+  left: 0;
+  right: 0;
+  transform: none;
+}
+
+.btn {
+  font-family: 'Russo One';
+  border: none;
+  padding: 12px 0;
+  transition: 1s ease;
+}
+
+.btn:hover {
+  scale: 1.03;
+  box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+  scale: 0.95;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.footer-link {
+  padding: 20px 0;
+  transition: 1s ease;
+}
+
+.footer-link:hover {
+  scale: 1.05;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.btn-success {
+  background: var(--success-color);
+  border: var(--success-color);
+}
+
+.btn-outline-success {
+  background: none;
+  color: var(--success-color);
+  border: 2px solid var(--success-color);
+}
+
+.btn-success:hover, .btn-outline-success:hover {
+  background: var(--success-color);
+  border: var(--success-color);
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  border-radius: 30px;
+  border: 1px solid var(--title-color);
+  background: none;
+  color: var(--title-color);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+
+.form-label {
+  position: absolute;
+  left: 20px;
+  top: 15px;
+  color: var(--title-color);
+  pointer-events: none;
+  transition: 0.3s ease all;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  user-select: none;
+  background: transparent;
+}
+
+.form-input:focus + .form-label,
+.form-input:not(:placeholder-shown) + .form-label {
+  top: -10px;
+  font-size: 12px;
+  color: var(--brand-color);
+  padding: 0 5px;
+  background: var(--background-color);
+}
+
+.container > form {
+  border-bottom: 2px solid var(--text-color);
+  padding-bottom: 30px;
+  position: relative;
+}
+
+.container > p {
+  position: relative;
+  top: -13px; /* поднять на линию */
+  background: var(--background-color); /* фон, чтобы текст «резал» линию */
+  display: inline-block;
+  padding: 0 12px;
+  font-size: 16px;
+  color: var(--text-color);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.star-rating .fa-star {
+  color: var(--text-color);
+  transition: color 0.3s;
+}
+
+.star-rating .fa-star.hovered,
+.star-rating .fa-star.selected {
+  color: #ffc107;
+}
+
+.faq-question {
+  width: 100%;
+  background: var(--background-color);
+  color: var(--title-color);
+  padding: 15px 20px;
+  font-weight: 600;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  border-bottom: 1px solid var(--text-color);
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+  background: var(--card-color);
+}
+
+.faq-answer {
+  background: var(--card-color);
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--text-color);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.faq-question:last-child {
+  border: none;
+}
+
+.faq-answer:last-child {
+  border: none;
+}
+
+.faq-answer.show {
+  padding: 15px 20px;
+  max-height: 300px; /* Должно быть больше, чем любой ответ */
+}
