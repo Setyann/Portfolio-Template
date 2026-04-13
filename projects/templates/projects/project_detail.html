@@ -1,0 +1,121 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block title %}{{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column text-center justify-content-center mt-4">
+    {% if project.images.all %}
+
+        {% with images=project.images.all %}
+
+        <div class="carousel-wrapper">
+            <div id="carouselExampleAutoplaying"
+                class="carousel slide"
+                data-bs-ride="carousel">
+
+                <div class="carousel-indicators">
+                    {% for img in images %}
+                        <button type="button"
+                            data-bs-target="#carouselExampleAutoplaying"
+                            data-bs-slide-to="{{ forloop.counter0 }}"
+                            class="{% if forloop.first %}active{% endif %}"
+                            aria-current="{% if forloop.first %}true{% endif %}">
+                        </button>
+                    {% endfor %}
+                </div>
+
+                <div class="carousel-inner">
+                    {% for img in images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="5000">
+                            <img src="{{ img.image.url }}"
+                                class="d-block w-100"
+                                style="aspect-ratio: 16/9; object-fit: cover;">
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <button class="carousel-control-prev" type="button"
+                        data-bs-target="#carouselExampleAutoplaying"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+
+                <button class="carousel-control-next" type="button"
+                        data-bs-target="#carouselExampleAutoplaying"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+
+            </div>
+        </div>
+        {% endwith %}
+    
+    {% else %}
+        <img src="{% static 'main/img/image_not_found.png' %}"
+            class="d-block w-100"
+            style="aspect-ratio: 16/9; object-fit: cover;">
+    {% endif %}
+    <h1 class="pt-4 pb-3" style="font-size: 32px;">{{ project.title }}</h1>
+    <p>{{ project.full_desc }}</p>
+
+    <div class="d-flex justify-content-center flex-wrap" style="gap: 0.5rem;">
+
+        {% for review in latest_reviews %}
+            <div class="card mx-2 mb-3 text-center"
+                 style="width: 22rem; border: none; background: var(--card-color); border-radius: 15px;">
+
+                <div class="card-body">
+
+                    <h5 class="card-title my-2"
+                        style="color: var(--title-color); font-family: 'Russo One'; font-size: 24px;">
+                        {{ review.name }}
+                    </h5>
+
+                    <div>
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= review.rate %}
+                                <i class="fa-solid fa-star fs-2 text-warning"></i>
+                            {% else %}
+                                <i class="fa-solid fa-star fs-2 text-secondary"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <p class="card-text py-2"
+                       style="color: var(--title-color); font-family: 'Montserrat', sans-serif; font-size: 14px;">
+                        {{ review.message }}
+                    </p>
+
+                </div>
+            </div>
+        {% endfor %}
+
+        <a class="d-flex align-items-center justify-content-center"
+            style="background: var(--title-color); color: var(--background-color);
+                border-radius: 25px; padding: 10px; height: 50px; min-width: 50px;
+                margin: auto 0;"
+            href="{% url 'review' project.id %}">
+            <i class="fa-solid fa-arrow-right fs-2"></i>
+        </a>
+
+    </div>
+
+    <a href="{% url 'feedback' %}#feedbackForm"
+       class="btn btn-success my-2 w-100"
+       style="font-family: 'Russo One'; padding: 12px 0; border-radius: 30px; color: var(--background-color);"
+       data-text="Questions about {{ project.title }}">
+        Have any questions?
+    </a>
+
+    {% if project.project_url %}
+        <a href="{{ project.project_url }}"
+           class="btn btn-outline-success mt-2 mb-3 w-100"
+           style="font-family: 'Russo One'; padding: 12px 0; border-radius: 30px;"
+           target="_blank">
+            See Project
+        </a>
+    {% endif %}
+
+</div>
+{% endblock %}

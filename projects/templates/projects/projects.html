@@ -1,0 +1,61 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+  <div class="container pb-3">
+    <h1 class="text-center pt-4 pb-3" style="font-size: 32px;">Projects</h1>
+    {% if projects %}
+      <div class="d-flex flex-row flex-wrap">
+        {% for project in projects %}
+          <div class="card mb-3 mx-3 text-center"
+              style="width: 24rem; border: 1px solid var(--text-color); background: var(--card-color); border-radius: 15px; overflow: hidden;">
+
+            {% if project.images.all %}
+              <div id="carousel-{{ project.id }}"
+                  class="carousel slide"
+                  data-bs-ride="carousel"
+                  data-bs-interval="3000">
+
+                <div class="carousel-inner">
+
+                  {% for img in project.images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                      <img src="{{ img.image.url }}"
+                          class="d-block w-100"
+                          style="height: 200px; object-fit: cover;">
+                    </div>
+                  {% endfor %}
+
+                </div>
+
+              </div>
+            {% else %}
+              <img src="{% static 'main/img/image_not_found.png' %}" class="d-block w-100" style="height:200px; object-fit:cover;">
+            {% endif %}
+
+            <div class="card-body">
+              <h5 class="card-title" style="color: var(--title-color); font-size: 21px;">
+                {{ project.title }}
+              </h5>
+
+              <p class="card-text pb-3" style="color: var(--title-color); font-size: 12px;">
+                {{ project.anons }}
+              </p>
+
+              <a href="{% url 'project_detail' project.id %}"
+                class="btn btn-secondary w-100"
+                style="background: var(--card-btn); color: var(--card-btn-text); padding: 8px 0;">
+                See More
+              </a>
+            </div>
+
+          </div>
+          {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center w-100" style="color: var(--text-color); font-family: 'Montserrat', sans-serif; margin-top: 35px; font-size: 20px;">There are no projects to display :(</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,292 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+  <h1 class="my-3 text-center" style="font-family: 'Russo One'; font-size: 32px; color: var(--title-color);">Clients Review</h1>
+  <div class="container d-flex justify-content-center flex-wrap flex-row">
+    {% if reviews|length == 0 %}
+      <p class="text-center w-100" style="font-family: 'Montserrat', sans-serif; margin-top: 25px;">No reviews yet. Be the first to leave feedback!</p>
+    {% else %}
+      {% for review in reviews %}
+        <div class="card mx-2 text-center mb-3"
+           style="width: 22rem; border: none; background: var(--card-color); border-radius: 15px;">
+
+          <div class="card-body">
+
+            <h5 class="card-title my-2" style="color: var(--title-color); font-family: 'Russo One'; font-size: 24px;">
+              {{ review.name }}
+            </h5>
+
+            <div class="flex-row">
+              {% for i in "12345" %}
+                {% if forloop.counter <= review.rate %}
+                  <i class="fa-solid fa-star fs-2 text-warning"></i>
+                {% else %}
+                  <i class="fa-solid fa-star fs-2 text-secondary"></i>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <p class="card-text py-2" style="color: var(--title-color); font-family: 'Montserrat', sans-serif; font-size: 14px;">
+              {{ review.message }}
+            </p>
+
+          </div>
+        </div>
+      {% endfor %}
+      <a href="{% url 'reviews' %}" class="btn btn-secondary mt-3 mb-4 w-100" style="background: var(--btn-color); color: var(--title-color); font-family: 'Russo One'; padding: 12px 0;">
+        See More
+      </a>
+    {% endif %}
+  </div>
+  <div class="container text-center" style="max-width: 50%;">
+    <p class="mt-3" style="position: relative; top: 13px; background: var(--background-color); padding: 0 12px; z-index: 1;">If you have any questions or need assistance, just feel free to</p>
+    <form id="feedbackForm" class="d-flex flex-column" style="border-top: 2px solid var(--text-color); padding-top: 30px;">
+      <h1 class="my-2" style="font-family: 'Russo One'; font-size: 32px; color: var(--title-color);">Contact Us</h1>
+
+      <div class="form-group">
+        <input type="name" id="name" class="form-input mb-3" placeholder=" " required/>
+        <label for="name" class="form-label">Your Name</label>
+      </div>
+      
+      <div class="form-group">
+        <input type="email" id="email" class="form-input mb-3" placeholder=" " required/>
+        <label for="email" class="form-label">Your Email</label>
+      </div>
+      
+      <div class="form-group">
+        <input type="text" id="titleMessage" class="form-input mb-3" placeholder=" " required/>
+        <label for="titleMessage" class="form-label">Title of Message</label>
+      </div>
+      
+      <div class="form-group">
+        <textarea id="message" class="form-input mb-3" placeholder=" " rows="5" required></textarea>
+        <label for="message" class="form-label">Message</label>
+      </div>
+      
+      <button type="submit" class="btn btn-success w-100" style="padding: 15px; border-radius: 30px;">
+        <i class="fa-solid fa-paper-plane fs-5"></i> Send
+      </button>
+    </form>
+    <p>You have thoughts to share, you’re welcome to</p>
+    <form method="post" class="d-flex flex-column">
+      {% csrf_token %}
+      <h1 class="my-2" style="font-family: 'Russo One'; font-size: 32px; color: var(--title-color);">Leave Feedback</h1>
+
+      <div class="form-group custom-select mb-3">
+        <div name="project" class="select-trigger text-align-start">Choose project</div>
+        <div class="select-options">
+          {% for value, label in form.project.field.choices %}
+            {% if label != "---------" %}
+              <div class="option" data-value="{{ value }}">{{ label }}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <input type="hidden" name="project" id="projectInput">
+      </div>
+      
+      <div class="form-group">
+        {{ form.name }}
+        <label for="name" class="form-label">Your Name (optional)</label>
+      </div>
+      
+      <div class="form-group">
+        {{ form.message }}
+        <label for="message" class="form-label">Message</label>
+      </div>
+      
+      <div class="form-group">
+        <div class="form-group star-rating mb-3" id="starRating">
+          <i class="fa-solid fa-star fs-1" data-value="1"></i>
+          <i class="fa-solid fa-star fs-1" data-value="2"></i>
+          <i class="fa-solid fa-star fs-1" data-value="3"></i>
+          <i class="fa-solid fa-star fs-1" data-value="4"></i>
+          <i class="fa-solid fa-star fs-1" data-value="5"></i>
+        </div>
+        {{ form.rate }}
+      </div>
+      
+      <button type="submit" class="btn btn-success w-100" style="padding: 15px; border-radius: 30px;">Publish</button>
+    </form>
+    <p>Or you can write to us on social networks</p>
+    <div class="d-flex flex-column">
+      <a target="_blank" href="mailto:example@example.com" class="text-center mb-2" style="font-size: 21px; font-family: 'Russo One';">
+        <i class="fa-solid fa-envelope fs-3"></i> 
+        Send Email
+      </a>
+      <a target="_blank" href="https://t.me/username" class="text-center mb-2" style="font-size: 21px; font-family: 'Russo One';">
+        <i class="fa-brands fa-telegram fs-3"></i> 
+        Write to Telegram
+      </a>
+      <a target="_blank" href="https://github.com/username" class="text-center mb-2" style="font-size: 21px; font-family: 'Russo One';">
+        <i class="fa-brands fa-github fs-3"></i> 
+        View GitHub
+      </a>
+    </div>
+    <section style="max-width: 600px; margin: 40px auto; font-family: 'Montserrat', sans-serif; color: #ddd;">
+      <h2 style="
+        font-family: 'Russo One', sans-serif;
+        font-size: 28px;
+        text-shadow: 1px 1px 6px #888;
+        margin-bottom: 20px;
+        text-align: center;
+      ">
+        FAQ (Frequently Asked Questions)
+      </h2>
+
+      <div style="background: #111; border-radius: 10px; overflow: hidden;">
+        <button class="faq-question">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+        </button>
+        <div class="faq-answer">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus velit, consequat in odio at, scelerisque tempor sapien. Etiam lobortis vehicula neque vel fermentum.
+        </div>
+
+        <button class="faq-question">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+        </button>
+        <div class="faq-answer">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus velit, consequat in odio at, scelerisque tempor sapien. Etiam lobortis vehicula neque vel fermentum.
+        </div>
+
+        <button class="faq-question">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+        </button>
+        <div class="faq-answer">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus velit, consequat in odio at, scelerisque tempor sapien. Etiam lobortis vehicula neque vel fermentum.
+        </div>
+      </div>
+    </section>
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+  <!-- Подключаем EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    // Инициализация EmailJS
+    emailjs.init("GzZ6JLsPC2zwx2eQx");
+
+    const feedbackForm = document.getElementById('feedbackForm');
+    const stars = document.querySelectorAll('#starRating .fa-star');
+    const ratingInput = document.getElementById('ratingValue');
+    const storageKey = 'feedbackTitle';
+    const input = document.getElementById('titleMessage');
+    const select = document.querySelector('.custom-select');
+    const trigger = select.querySelector('.select-trigger');
+    const options = select.querySelectorAll('.option');
+    const projectInput = document.getElementById('projectInput');
+    let selectedRating = 0;
+
+    trigger.addEventListener('click', () => {
+      select.classList.toggle('open');
+    });
+
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        projectInput.value = opt.dataset.value;
+        trigger.textContent = opt.textContent;
+        select.classList.remove('open');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!select.contains(e.target)) {
+        select.classList.remove('open');
+      }
+    });
+
+    // Рейтинг
+    stars.forEach(star => {
+      star.addEventListener('mouseover', () => highlightStars(parseInt(star.dataset.value)));
+      star.addEventListener('mouseout', () => highlightStars(selectedRating));
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.dataset.value);
+        ratingInput.value = selectedRating;
+        highlightStars(selectedRating);
+      });
+    });
+
+    function highlightStars(rating) {
+      stars.forEach(star => star.classList.toggle('selected', parseInt(star.dataset.value) <= rating));
+    }
+
+    // Отправка формы
+    feedbackForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+      const originalBtnHTML = submitBtn.innerHTML;
+
+      // Показать загрузку и заблокировать кнопку
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+      // Блокировать закрытие страницы
+      const beforeUnloadHandler = (event) => {
+        event.preventDefault();
+        event.returnValue = '';
+      };
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+
+      const templateParams = {
+        name: document.getElementById('name').value,
+        title: document.getElementById('titleMessage').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+      };
+
+      emailjs.send("service_kqg52b1", "template_lkxq411", templateParams)
+        .then(() => {
+          feedbackForm.reset();
+          localStorage.removeItem(storageKey);
+        })
+        .catch((err) => {
+          console.error('EmailJS error:', err);
+        })
+        .finally(() => {
+          // Вернуть кнопку в нормальный вид
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHTML;
+          // Разблокировать выход со страницы
+          window.removeEventListener('beforeunload', beforeUnloadHandler);
+        });
+    });
+
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = answer.classList.contains('show');
+
+        // Закрываем все
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('show'));
+
+        // Если кликнули по закрытому — открыть
+        if (!isOpen) {
+          answer.classList.add('show');
+        }
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) input.value = saved;
+      highlightStars(0);
+      
+      if (window.location.hash === '#feedbackForm') {
+        const form = document.getElementById('feedbackForm');
+        if (form) {
+          form.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+
+    window.addEventListener("beforeunload", () => {
+      localStorage.removeItem("feedbackTitle");
+    });
+  </script>
+{% endblock %}

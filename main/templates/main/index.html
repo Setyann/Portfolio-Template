@@ -1,0 +1,76 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <div class="container py-4">
+    <h1 class="mb-3 text-center" style="font-family: 'Russo One'; font-size: 32px; color: var(--title-color);">About Me (or Company)</h1>
+    <div class="d-flex align-items-start justify-content-center gap-4 flex-wrap">
+      <div style="flex-shrink: 0;">
+        <img src="{% static 'main/img/image.png' %}" alt="Your or Company Image"
+             style="width: 300px; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 25px;">
+      </div>
+      <div style="max-width: 700px;">
+        <p style="color: var(--text-color); font-family: 'Montserrat', sans-serif;">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum rhoncus rhoncus. Aenean molestie mollis ipsum, tempus facilisis nulla semper in. Sed nec faucibus ligula. Ut convallis nibh massa, a viverra felis sagittis eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec feugiat massa id ante tristique, non scelerisque libero ornare. Maecenas ullamcorper ex velit, id vehicula dolor feugiat consectetur.<br><br>
+          Vivamus lectus neque, convallis facilisis scelerisque euismod, ullamcorper ut purus. Praesent gravida vehicula ultrices. Pellentesque efficitur neque sed nunc tincidunt faucibus. Etiam blandit, arcu eget aliquam sagittis, tortor mi lobortis diam, eget finibus nisl tellus eget erat. Maecenas mi purus, ultrices eget porttitor vitae, efficitur eu lacus. Aliquam accumsan augue at turpis ullamcorper, a interdum orci semper. Morbi dictum, tortor ac aliquet tempus, lacus purus luctus lectus, non ultrices justo ex pulvinar lacus. Mauris lorem augue, bibendum sed condimentum nec, interdum eu velit.<br><br>
+        </p>
+      </div>
+      <a href="{% url 'about' %}" class="btn btn-secondary mt-3 w-100" style="background: var(--btn-color); color: var(--title-color); font-family: 'Russo One'; padding: 12px 0;">
+          See More
+        </a>
+    </div>
+  </div>
+  <div class="container pb-3">
+    <h1 class="text-center pt-4 pb-3" style="font-size: 32px;">Last Projects</h1>
+    <div class="d-flex flex-row">
+      {% if projects %}
+      <div class="d-flex flex-row flex-wrap">
+        {% for project in projects %}
+          <div class="card mx-3 text-center"
+            style="width: 24rem; border: 1px solid var(--text-color); background: var(--card-color); border-radius: 15px; overflow: hidden;">
+            {% if project.images.all %}
+              <div id="carousel-{{ project.id }}"
+                class="carousel slide"
+                data-bs-ride="carousel"
+                data-bs-interval="3000">
+                <div class="carousel-inner">
+                  {% for img in project.images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                      <img src="{{ img.image.url }}"
+                        class="d-block w-100"
+                        style="height: 200px; object-fit: cover;">
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% else %}
+              <img src="{% static 'main/img/image_not_found.png' %}" class="d-block w-100" style="height:200px; object-fit:cover;">
+            {% endif %}
+
+            <div class="card-body">
+              <h5 class="card-title" style="color: var(--title-color); font-size: 21px;">
+                {{ project.title }}
+              </h5>
+
+              <p class="card-text pb-3" style="color: var(--title-color); font-size: 12px;">
+                {{ project.anons }}
+              </p>
+
+              <a href="{% url 'project_detail' project.id %}"
+                class="btn btn-secondary w-100"
+                style="background: var(--card-btn); color: var(--card-btn-text); padding: 8px 0;">
+                See More
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center w-100" style="color: var(--text-color); font-family: 'Montserrat', sans-serif; margin-top: 35px; font-size: 20px;">There are no projects to display :(</p>
+    {% endif %}
+    </div>
+    <a class="btn btn-secondary w-100 my-3" style="background: var(--btn-color); color: var(--title-color);" href="{% url 'projects' %}">See More Projects</a>
+  </div>
+{% endblock %}
