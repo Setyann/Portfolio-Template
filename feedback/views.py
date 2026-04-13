@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from reviews.models import Reviews
+from reviews.models import Review
 from .forms import ReviewForm
 
 # Create your views here.
@@ -14,5 +14,5 @@ def feedback(request):
             error = 'There was an error submitting your review. Please try again.'
     else:
         form = ReviewForm()
-    reviews = Reviews.objects.order_by('-id')[:6]
+    reviews = Review.objects.order_by('-id')[:6]
     return render(request, 'feedback/feedback.html', {'reviews': reviews, 'form': form, 'error': error})

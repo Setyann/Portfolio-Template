@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import Reviews
+from .models import Review
 
 def reviews(request, project_id=None):
 
-    qs = Reviews.objects.all().order_by('-date')
+    qs = Review.objects.all().order_by('-date')
 
     if project_id:
         qs = qs.filter(project_id=project_id)

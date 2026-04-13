@@ -1,10 +1,10 @@
-from reviews.models import Reviews
+from reviews.models import Review
 from projects.models import Project
 from django.forms import ModelForm, TextInput, Textarea, HiddenInput, Select
 
 class ReviewForm(ModelForm):
     class Meta:
-        model = Reviews
+        model = Review
         fields = ['project', 'name', 'message', 'rate']
         widgets = {
             'project': Select(attrs={

@@ -20,7 +20,10 @@ class Project(models.Model):
 def project_image_path(instance, filename):
     ext = filename.split('.')[-1]
     filename = f"{uuid.uuid4()}.{ext}"
-    return os.path.join("projects", str(instance.project_id), filename)
+
+    project_id = instance.project.id if instance.project else "unknown"
+
+    return os.path.join("projects", str(project_id), filename)
 
 class ProjectImage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')

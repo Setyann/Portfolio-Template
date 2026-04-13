@@ -12,13 +12,19 @@ class SiteContent(models.Model):
 class FAQ(models.Model):
     question = models.CharField(max_length=255)
     answer = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
 
-    def __str__(self):
-        return self.question
+    class Meta:
+        ordering = ["order"]
 
 class Skill(models.Model):
     name = models.CharField(max_length=100)
-    level = models.IntegerField(default=0)  # %
+    level = models.PositiveSmallIntegerField(default=0)
 
-    def __str__(self):
-        return self.name
+    def save(self, *args, **kwargs):
+        if self.level > 100:
+            self.level = 100
+        if self.level < 0:
+            self.level = 0
+        super().save(*args, **kwargs)
