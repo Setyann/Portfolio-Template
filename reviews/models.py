@@ -3,11 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Reviews(models.Model):
-    project = models.ForeignKey(
-        'projects.Project',
-        on_delete=models.CASCADE,
-        related_name='reviews'
-    )
+    project = models.ForeignKey('projects.Project', on_delete=models.CASCADE, related_name='reviews')
     name = models.CharField("Full Name", max_length=50, default='Anonymous')
     rate = models.IntegerField(
         "Rating",

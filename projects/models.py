@@ -23,11 +23,7 @@ def project_image_path(instance, filename):
     return os.path.join("projects", str(instance.project_id), filename)
 
 class ProjectImage(models.Model):
-    project = models.ForeignKey(
-        Project,
-        on_delete=models.CASCADE,
-        related_name='images'
-    )
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to=project_image_path)
 
     def __str__(self):
