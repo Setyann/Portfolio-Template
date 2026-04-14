@@ -61,7 +61,7 @@
 
         {% for review in latest_reviews %}
             <div class="card mx-2 mb-3 text-center"
-                 style="width: 22rem; border: none; background: var(--card-color); border-radius: 15px;">
+                 style="width: 22rem; border: none; background: var(--surface-color); border-radius: 15px;">
 
                 <div class="card-body">
 
@@ -101,7 +101,7 @@
 
     <a href="{% url 'feedback' %}#feedbackForm"
        class="btn btn-success my-2 w-100"
-       style="font-family: 'Russo One'; padding: 12px 0; border-radius: 30px; color: var(--background-color);"
+       style="background: var(--success-color); font-family: 'Russo One'; padding: 12px 0; border-radius: 30px; color: var(--background-color);"
        data-text="Questions about {{ project.title }}">
         Have any questions?
     </a>
